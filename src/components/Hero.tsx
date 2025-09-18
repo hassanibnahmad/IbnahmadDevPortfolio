@@ -19,10 +19,10 @@ const Hero: React.FC = () => {
         }}></div>
       </div>
 
-      <div className="container mx-auto px-6 text-center relative z-10">
+  <div className="container mx-auto px-6 text-center relative z-10 mt-20 md:mt-0">
         <div className="max-w-4xl mx-auto">
           {/* Profile Image */}
-          <div className="w-32 h-32 mx-auto mb-8 relative">
+          <div className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 md:mb-8 relative">
             <div className="w-full h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 p-1">
               <img 
                 src={profileImg}
@@ -30,7 +30,7 @@ const Hero: React.FC = () => {
                 className="w-full h-full rounded-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-slate-900"></div>
+            <div className="absolute -bottom-2 -right-2 w-5 h-5 md:w-8 md:h-8 bg-green-500 rounded-full border-4 border-slate-900"></div>
           </div>
 
           {/* Name and Title */}
