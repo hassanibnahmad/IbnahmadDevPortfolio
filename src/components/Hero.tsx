@@ -1,4 +1,5 @@
 import React from 'react';
+import profileImg from '../assets/profile.jpg';
 import { ChevronDown, Github, Linkedin, Mail } from 'lucide-react';
 
 const Hero: React.FC = () => {
@@ -24,7 +25,7 @@ const Hero: React.FC = () => {
           <div className="w-32 h-32 mx-auto mb-8 relative">
             <div className="w-full h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 p-1">
               <img 
-                src={require('../assets/profile.jpg')}
+                src={profileImg}
                 alt="Hassan Ibn Ahmad" 
                 className="w-full h-full rounded-full object-cover"
               />
