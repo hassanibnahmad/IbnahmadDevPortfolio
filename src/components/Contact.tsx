@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, Github, Linkedin } from 'lucide-react';
+import emailjs from 'emailjs-com';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -9,12 +10,34 @@ const Contact: React.FC = () => {
     message: ''
   });
 
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setSending(true);
+    setError('');
+    setSent(false);
+    emailjs.send(
+      'service_vra8cvo',
+      'template_gf6c71j',
+      {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      },
+      'o0j0yE9yY-q1lD69T'
+    )
+      .then(() => {
+        setSent(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      })
+      .catch((err) => {
+        setError('Failed to send message. Please try again.');
+      })
+      .finally(() => setSending(false));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -36,10 +59,16 @@ const Contact: React.FC = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16">
-          {/* Contact Form */}
+          {/* Contact Form (left) */}
           <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700">
             <h3 className="text-2xl font-semibold text-slate-100 mb-6">Send Message</h3>
             <form onSubmit={handleSubmit} className="space-y-6">
+              {sent && (
+                <div className="text-green-400 text-sm font-medium">Message sent successfully!</div>
+              )}
+              {error && (
+                <div className="text-red-400 text-sm font-medium">{error}</div>
+              )}
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-slate-300 text-sm font-medium mb-2">
@@ -72,7 +101,6 @@ const Contact: React.FC = () => {
                   />
                 </div>
               </div>
-              
               <div>
                 <label htmlFor="subject" className="block text-slate-300 text-sm font-medium mb-2">
                   Subject
@@ -88,7 +116,6 @@ const Contact: React.FC = () => {
                   placeholder="What's this about?"
                 />
               </div>
-              
               <div>
                 <label htmlFor="message" className="block text-slate-300 text-sm font-medium mb-2">
                   Message
@@ -104,22 +131,28 @@ const Contact: React.FC = () => {
                   placeholder="Tell me about your project..."
                 />
               </div>
-              
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 hover:scale-105"
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg transition-colors duration-200 disabled:opacity-60"
+                disabled={sending}
               >
-                <Send size={20} />
-                <span>Send Message</span>
+                {sending ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} /> Send Message
+                  </>
+                )}
               </button>
             </form>
           </div>
-
-          {/* Contact Info */}
-          <div className="space-y-8">
+          {/* Contact Info + Follow Me (right) */}
+          <div className="flex flex-col gap-8">
             <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700">
               <h3 className="text-2xl font-semibold text-slate-100 mb-6">Contact Information</h3>
-              
               <div className="space-y-6">
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center">
@@ -132,7 +165,6 @@ const Contact: React.FC = () => {
                     </a>
                   </div>
                 </div>
-                
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center">
                     <Phone className="h-6 w-6 text-indigo-400" />
@@ -144,7 +176,6 @@ const Contact: React.FC = () => {
                     </a>
                   </div>
                 </div>
-                
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center">
                     <MapPin className="h-6 w-6 text-indigo-400" />
@@ -154,7 +185,6 @@ const Contact: React.FC = () => {
                     <p className="text-slate-100">Agadir, Morocco</p>
                   </div>
                 </div>
-                
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center">
                     <Clock className="h-6 w-6 text-indigo-400" />
@@ -166,7 +196,6 @@ const Contact: React.FC = () => {
                 </div>
               </div>
             </div>
-
             <div className="bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700">
               <h3 className="text-2xl font-semibold text-slate-100 mb-6">Follow Me</h3>
               <div className="flex space-x-4">

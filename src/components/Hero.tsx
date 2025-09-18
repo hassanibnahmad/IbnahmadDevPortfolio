@@ -24,7 +24,7 @@ const Hero: React.FC = () => {
           <div className="w-32 h-32 mx-auto mb-8 relative">
             <div className="w-full h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 p-1">
               <img 
-                src="src/assets/profile.jpg"
+                src={require('../assets/profile.jpg')}
                 alt="Hassan Ibn Ahmad" 
                 className="w-full h-full rounded-full object-cover"
               />
